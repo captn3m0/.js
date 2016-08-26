@@ -1,20 +1,24 @@
-var observer = new MutationObserver(function(mutations) {
-  var aTags = document.body.getElementsByTagName("a");
-  for (var i = 0; i < aTags.length; i++) {
-    var tag = aTags[i];
-    if(tag.getAttribute("class") !== null && tag.getAttribute("class").indexOf("twitter-atreply") > -1){
-      continue;
-    }
-    if (tag.href && tag.href.indexOf("://t.co/") > -1) {
-      tag.href = tag.getAttribute("data-expanded-url") !== "" && tag.getAttribute("data-expanded-url") !== null ? tag.getAttribute("data-expanded-url") : tag.getAttribute("data-full-url") !== "" && tag.getAttribute("data-full-url") !== null ? tag.getAttribute("data-full-url") : tag.getAttribute("title");
-    }
-  };
+var updateCache = function() {
+  $('[href^="https://t.co/"][data-expanded-url]').each(function(e, v) {
+    var shortlink = $(v).prop('href');
+    var longlink  = $(v).data('expanded-url');
 
-});
-
-var config = { 
-  childList: true,
-  subtree: true
+    localStorage.setItem(shortlink,longlink);
+  });
 };
 
-observer.observe(document.body, config);
+var fixLink = function(e, v) {
+  var shortlink = v.getAttribute('href');
+  var longlink = localStorage.getItem(shortlink);
+
+  if (longlink) {
+    v.setAttribute('href', longlink);
+  }
+};
+
+var fixLinks = function() {
+  $('[href^="https://t.co/"]').each(fixLink);
+};
+
+setInterval(updateCache, 1000);
+setInterval(fixLinks, 1000);
