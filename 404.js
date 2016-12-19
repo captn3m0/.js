@@ -169,7 +169,6 @@
         for (i = 0; text = texts.snapshotItem(i); i += 1) {
             if ( isTagOk(text.parentNode.tagName) ) {
                 regexs.forEach(function (value, index) {
-                    console.log(text.data);
                     text.data = text.data.replace( value, replacements[index] );
                 });
             }
