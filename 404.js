@@ -107,7 +107,6 @@
 
             // Syntax: 'Search word' : 'Replace word',
             'your a' : 'you\'re a',
-            'imo' : 'in my opinion',
             'im\\*o' : 'matching an asterisk, not a wildcard',
             '/\\bD\\b/g' : '[D]',
             'RazorPay': 'Razorpay'
