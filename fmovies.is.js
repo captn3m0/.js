@@ -1,1 +1,3 @@
-window.open = function() {};
+window.open = function() {
+	console.log('prevented popup');
+};
